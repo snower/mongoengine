@@ -251,6 +251,7 @@ class TopLevelDocumentMetaclass(DocumentMetaclass):
                 'index_opts': None,
                 'delete_rules': None,
                 'allow_inheritance': None,
+                'virtual_fields':[],
             }
             attrs['_is_base_cls'] = True
             attrs['_meta'].update(attrs.get('meta', {}))
@@ -344,6 +345,7 @@ class TopLevelDocumentMetaclass(DocumentMetaclass):
         # Provide a default queryset unless exists or one has been set
         if 'objects' not in dir(new_class):
             new_class.objects = QuerySetManager()
+            new_class._default_manager = new_class.objects
 
         # Validate the fields and set primary key if needed
         for field_name, field in new_class._fields.iteritems():
